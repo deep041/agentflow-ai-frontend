@@ -1,0 +1,40 @@
+<section class="planner">
+  <header>
+    <h1>AgentFlow AI</h1>
+    <p>Turn your goals into AI-powered execution plans.</p>
+  </header>
+
+  <form (ngSubmit)="generatePlan()">
+    <label for="goal">Describe your goal</label>
+
+    <textarea id="goal" name="goal" [(ngModel)]="goal" rows="5" maxlength="2000"
+      placeholder="What would you like AI agents to accomplish?"></textarea>
+
+    <button type="submit" [disabled]="loading() || goal.trim().length < 10">
+      {{ loading() ? 'Generating...' : 'Generate AI Plan' }}
+    </button>
+  </form>
+
+  @if (error()) {
+  <p role="alert">{{ error() }}</p>
+  }
+
+  @if (plan(); as result) {
+  <section class="result">
+    <h2>{{ result.title }}</h2>
+    <p>{{ result.summary }}</p>
+
+    @for (step of result.steps; track $index) {
+    <article class="step">
+      <span>Step {{ $index + 1 }}</span>
+      <h3>{{ step.title }}</h3>
+      <p>{{ step.description }}</p>
+      <small>
+        Agent: {{ step.agent }} |
+        Estimate: {{ step.estimated_minutes }} min
+      </small>
+    </article>
+    }
+  </section>
+  }
+</section>

@@ -1,0 +1,53 @@
+.planner {
+  max-width: 850px;
+  margin: 48px auto;
+  padding: 24px;
+  font-family: Inter, Arial, sans-serif;
+
+  header {
+    margin-bottom: 32px;
+  }
+
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  textarea {
+    padding: 16px;
+    border: 1px solid #cbd5e1;
+    border-radius: 10px;
+    font: inherit;
+    resize: vertical;
+  }
+
+  button {
+    padding: 14px 20px;
+    background: #2563eb;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+
+    &:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+  }
+
+  .result {
+    margin-top: 36px;
+  }
+
+  .step {
+    padding: 20px;
+    margin: 14px 0;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+
+    small {
+      color: #64748b;
+    }
+  }
+}

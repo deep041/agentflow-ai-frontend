@@ -1,0 +1,30 @@
+.agent {
+  max-width: 850px;
+  margin: 40px auto;
+  padding: 24px;
+}
+
+textarea {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  margin-bottom: 16px;
+  padding: 14px;
+}
+
+button {
+  padding: 12px 20px;
+  cursor: pointer;
+}
+
+article {
+  padding: 16px;
+  margin: 12px 0;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+}
+
+pre {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}

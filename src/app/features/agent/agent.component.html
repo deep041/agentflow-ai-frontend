@@ -1,0 +1,30 @@
+<section class="agent">
+  <h1>AgentFlow Tool Agent</h1>
+
+  <textarea [(ngModel)]="message" rows="4" placeholder="Ask the agent to complete a task..."></textarea>
+
+  <button (click)="execute()" [disabled]="loading() || message.trim().length < 3">
+    {{ loading() ? 'Working...' : 'Run Agent' }}
+  </button>
+
+  @if (error()) {
+  <p role="alert">{{ error() }}</p>
+  }
+
+  @if (result(); as data) {
+  <h2>Answer</h2>
+  <p>{{ data.answer }}</p>
+
+  <h2>Tool Execution Trace</h2>
+
+  @for (step of data.steps; track $index) {
+  <article>
+    <h3>{{ step.tool }}</h3>
+    <pre>{{ step.arguments | json }}</pre>
+    <pre>{{ step.result | json }}</pre>
+  </article>
+  }
+
+  <p>Iterations: {{ data.iterations }}</p>
+  }
+</section>

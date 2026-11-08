@@ -1,17 +1,17 @@
-<section class="planner">
+<div class="planner">
   <header>
     <h1>AgentFlow AI</h1>
-    <p>Turn your goals into AI-powered execution plans.</p>
+    <p>AI-powered task planning and automation</p>
   </header>
 
   <form (ngSubmit)="generatePlan()">
-    <label for="goal">Describe your goal</label>
+    <label for="goal">Your goal</label>
 
-    <textarea id="goal" name="goal" [(ngModel)]="goal" rows="5" maxlength="2000"
-      placeholder="What would you like AI agents to accomplish?"></textarea>
+    <textarea id="goal" name="goal" [(ngModel)]="goal" maxlength="2000" rows="4"
+      placeholder="Describe what you want to accomplish..."></textarea>
 
     <button type="submit" [disabled]="loading() || goal.trim().length < 10">
-      {{ loading() ? 'Generating...' : 'Generate AI Plan' }}
+      {{ loading() ? 'Generating...' : 'Generate Plan' }}
     </button>
   </form>
 
@@ -19,22 +19,48 @@
   <p role="alert">{{ error() }}</p>
   }
 
-  @if (plan(); as result) {
-  <section class="result">
-    <h2>{{ result.title }}</h2>
-    <p>{{ result.summary }}</p>
+  <div class="workspace">
+    <aside>
+      <h2>Task History</h2>
 
-    @for (step of result.steps; track $index) {
-    <article class="step">
-      <span>Step {{ $index + 1 }}</span>
-      <h3>{{ step.title }}</h3>
-      <p>{{ step.description }}</p>
-      <small>
-        Agent: {{ step.agent }} |
-        Estimate: {{ step.estimated_minutes }} min
-      </small>
-    </article>
-    }
-  </section>
-  }
-</section>
+      @if (historyLoading()) {
+      <p>Loading history...</p>
+      }
+
+      @for (task of tasks(); track task.id) {
+      <button type="button" class="history-item" (click)="openTask(task)">
+        {{ task.plan.title }}
+      </button>
+      } @empty {
+      <p>No tasks yet.</p>
+      }
+    </aside>
+
+    <main>
+      @if (selectedTask(); as task) {
+      <h2>{{ task.plan.title }}</h2>
+      <p>{{ task.plan.summary }}</p>
+
+      <section class="metrics">
+        <span>Model: {{ task.model }}</span>
+        <span>Input: {{ task.input_tokens }} tokens</span>
+        <span>Output: {{ task.output_tokens }} tokens</span>
+        <span>Latency: {{ task.latency_ms }} ms</span>
+      </section>
+
+      @for (step of task.plan.steps; track $index) {
+      <article class="step">
+        <h3>{{ $index + 1 }}. {{ step.title }}</h3>
+        <p>{{ step.description }}</p>
+        <small>
+          {{ step.agent }} ·
+          {{ step.estimated_minutes }} min
+        </small>
+      </article>
+      }
+      } @else {
+      <p>Select a task or generate a new plan.</p>
+      }
+    </main>
+  </div>
+</div>

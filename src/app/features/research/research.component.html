@@ -1,0 +1,47 @@
+<section class="research">
+  <h1>AI Research Agent</h1>
+
+  <p>
+    Research topics using AI and web search.
+  </p>
+
+  <form (ngSubmit)="startResearch()">
+    <textarea name="query" [(ngModel)]="query" rows="4" maxlength="2000"
+      placeholder="What would you like to research?"></textarea>
+
+    <button type="submit" [disabled]="loading() || query.trim().length < 10">
+      {{ loading() ? 'Researching...' : 'Start Research' }}
+    </button>
+  </form>
+
+  @if (error()) {
+  <p role="alert">{{ error() }}</p>
+  }
+
+  @if (result(); as research) {
+  <article class="report">
+    <h2>Research Report</h2>
+
+    <pre class="report-text">{{ research.report }}</pre>
+
+    <h3>Sources</h3>
+
+    @for (source of research.sources; track source.url) {
+    <p>
+      <a [href]="source.url" target="_blank" rel="noopener noreferrer">
+        {{ source.title }}
+      </a>
+    </p>
+    } @empty {
+    <p>No verified source links were returned.</p>
+    }
+
+    <div class="metrics">
+      <span>Model: {{ research.model }}</span>
+      <span>Input: {{ research.input_tokens }}</span>
+      <span>Output: {{ research.output_tokens }}</span>
+      <span>Latency: {{ research.latency_ms }} ms</span>
+    </div>
+  </article>
+  }
+</section>

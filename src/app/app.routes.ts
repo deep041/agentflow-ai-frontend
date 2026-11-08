@@ -6,5 +6,11 @@ export const routes: Routes = [
     loadComponent: () =>
       import('./features/planner/planner.component')
         .then(m => m.PlannerComponent)
+  },
+  {
+    path: 'research',
+    loadComponent: () =>
+      import('./features/research/research.component')
+        .then(m => m.ResearchComponent),
   }
 ];

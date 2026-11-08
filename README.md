@@ -112,8 +112,5 @@ Treat all model-generated text and source URLs as untrusted. Do not inject unsan
 
 ## Related repository
 
-**AgentFlow AI Backend:** Add the backend GitHub repository URL here.
+**AgentFlow AI Backend:** [Link](https://github.com/deep041/agentflow-ai-backend)
 
-## License
-
-Add a license file if you intend to open-source this project.

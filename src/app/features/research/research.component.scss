@@ -1,0 +1,51 @@
+.research {
+  max-width: 900px;
+  margin: 40px auto;
+  padding: 24px;
+
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  textarea {
+    padding: 16px;
+    font: inherit;
+    border: 1px solid #cbd5e1;
+    border-radius: 10px;
+  }
+
+  button {
+    padding: 14px;
+    background: #2563eb;
+    color: white;
+    border: 0;
+    border-radius: 10px;
+    cursor: pointer;
+
+    &:disabled {
+      opacity: 0.5;
+    }
+  }
+
+  .report {
+    margin-top: 32px;
+  }
+
+  .report-text {
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+    font: inherit;
+    line-height: 1.7;
+  }
+
+  .metrics {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    margin-top: 24px;
+    color: #64748b;
+    font-size: 13px;
+  }
+}

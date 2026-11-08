@@ -1,42 +1,73 @@
 import { Component, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { finalize } from 'rxjs';
-import { TaskPlan } from './planner.model';
+import { AITask } from './planner.model';
 import { PlannerService } from './planner.service';
 
 @Component({
-  selector: 'app-planner',
-  imports: [FormsModule],
-  templateUrl: './planner.component.html',
-  styleUrl: './planner.component.scss'
+    selector: 'app-planner',
+    imports: [FormsModule],
+    templateUrl: './planner.component.html',
+    styleUrl: './planner.component.scss'
 })
 
-export class PlannerComponent {
+export class PlannerComponent
+{
 
-  private readonly plannerService = inject(PlannerService);
+    private readonly plannerService = inject(PlannerService);
 
-  goal = '';
-  loading = signal(false);
-  plan = signal<TaskPlan | null>(null);
-  error = signal('');
+    goal = '';
+    loading = signal(false);
+    historyLoading = signal(false);
+    error = signal('');
 
-  generatePlan(): void
-  {
-    const goal = this.goal.trim();
+    selectedTask = signal<AITask | null>(null);
+    tasks = signal<AITask[]>([]);
 
-    if (goal.length < 10 || this.loading()) return;
+    ngOnInit(): void
+    {
+        this.loadHistory();
+    }
 
-    this.loading.set(true);
-    this.plan.set(null);
-    this.error.set('');
+    loadHistory(): void
+    {
+        this.historyLoading.set(true);
 
-    this.plannerService.generatePlan(goal)
-      .pipe(finalize(() => this.loading.set(false)))
-      .subscribe({
-        next: result => this.plan.set(result),
-        error: () => this.error.set(
-          'Unable to generate the plan. Please try again.'
-        )
-      });
-  }
+        this.plannerService.getTasks()
+            .pipe(finalize(() => this.historyLoading.set(false)))
+            .subscribe({
+                next: tasks => this.tasks.set(tasks),
+                error: () => this.error.set(
+                    'Unable to load task history.'
+                ),
+            });
+    }
+
+    generatePlan(): void
+    {
+        const goal = this.goal.trim();
+
+        if (goal.length < 10 || this.loading()) return;
+
+        this.loading.set(true);
+        this.error.set('');
+
+        this.plannerService.createTask(goal)
+            .pipe(finalize(() => this.loading.set(false)))
+            .subscribe({
+                next: task =>
+                {
+                    this.selectedTask.set(task);
+                    this.tasks.update(tasks => [task, ...tasks].slice(0, 50));
+                },
+                error: () => this.error.set(
+                    'Unable to generate your plan.'
+                ),
+            });
+    }
+
+    openTask(task: AITask): void
+    {
+        this.selectedTask.set(task);
+    }
 }

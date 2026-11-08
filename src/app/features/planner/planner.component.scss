@@ -51,3 +51,44 @@
     }
   }
 }
+
+.workspace {
+  display: grid;
+  grid-template-columns: 240px minmax(0, 1fr);
+  gap: 24px;
+  margin-top: 32px;
+
+  aside {
+    border-right: 1px solid #e2e8f0;
+    padding-right: 16px;
+  }
+
+  .history-item {
+    display: block;
+    width: 100%;
+    text-align: left;
+    background: transparent;
+    color: inherit;
+    border: 1px solid #e2e8f0;
+    margin-bottom: 8px;
+  }
+
+  .metrics {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin: 20px 0;
+    font-size: 13px;
+  }
+}
+
+@media (max-width: 700px) {
+  .workspace {
+    grid-template-columns: 1fr;
+
+    aside {
+      border-right: 0;
+      border-bottom: 1px solid #e2e8f0;
+    }
+  }
+}
